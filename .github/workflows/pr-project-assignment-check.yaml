@@ -1,4 +1,4 @@
-name: PR Project Assignment Check
+name: TEST - NOT FOR MERGING - PR Project Assignment Check
 
 # This workflow checks if the pull request has a project assigned and shows a warning (non-blocking) if no projects are found.
 # 
