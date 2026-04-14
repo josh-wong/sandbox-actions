@@ -24,3 +24,6 @@ jobs:
       repo_name: ${{ github.event.repository.name }}
       # Optional: Customize the warning message.
       warning_message: 'No projects are assigned to this PR. Consider assigning projects if this change should be applied to other version/release branches.'
+    secrets:
+      # Provide a PAT with 'read:project' scope to detect private projects.
+      PROJECT_TOKEN: ${{ secrets.PROJECT_READ_TOKEN }}
