@@ -1,0 +1,28 @@
+name: PR Project Assignment Check
+
+# This workflow checks if the pull request has a project assigned and shows a warning (non-blocking) if no projects are found.
+#
+# For instructions on how to implement this workflow in your repository, see https://github.com/josh-wong/actions/blob/main/pr-project-assignment-script/README.md.
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  check_project_assignment:
+    # Skip backport PRs (titles starting with "Backport to branch" and branch names that contain the "MAJOR.MINOR-pull-PR_NUMBER" pattern)
+    if: ${{ !(startsWith(github.event.pull_request.title, 'Backport to branch') && contains(github.head_ref, '-pull-')) }}
+    uses: josh-wong/actions/.github/workflows/pr-project-assignment-check-reusable.yaml@main
+    with:
+      pr_number: ${{ github.event.pull_request.number }}
+      repo_owner: ${{ github.repository_owner }}
+      repo_name: ${{ github.event.repository.name }}
+      # Optional: Customize the warning message.
+      warning_message: 'No projects are assigned to this PR. Consider assigning projects if this change should be applied to other version/release branches.'
+    secrets:
+      PROJECT_TOKEN: ${{ secrets.PROJECT_READ_TOKEN }}
